@@ -11,6 +11,16 @@ export async function POST(request:Request)
 
     try {
         const {username,email,password}=await request.json()
+        
+        // Validate username - only allow alphanumeric characters and underscores
+        const usernameRegex = /^[a-zA-Z0-9_]+$/;
+        if (!usernameRegex.test(username)) {
+            return Response.json({
+                success: false,
+                message: "Username must not contain special characters"
+            }, {status: 400})
+        }
+        
         const exitingUserVerifiedByUsername= await UserModel.findOne({
             username,
             isVerified:true
