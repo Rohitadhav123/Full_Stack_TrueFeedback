@@ -11,7 +11,8 @@ export async function sendVerificationEmail(
 ):Promise<ApiResponce>{
     try {
         await resend.emails.send({
-            from :'you@example.com',
+            // Use environment variable or fallback to resend.dev domain
+            from: process.env.EMAIL_FROM || 'onboarding@resend.dev',
             to: email,
             subject :'Mystry message  | Verification code',
             react:VerificationEmail({username,otp:verifyCode}),
